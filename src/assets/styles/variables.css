@@ -1,0 +1,35 @@
+:root {
+  /* Tipografía Principal */
+  --font-primaria: 'Inter', system-ui, sans-serif;
+
+  /* Paleta Institucional */
+  --color-institucional-primario: #0056b3; 
+  --color-institucional-secundario: #475569;
+  --color-institucional-acento: #2563eb;
+  --color-institucional-hover: #1d4ed8;
+
+  /* Superficies y Fondos */
+  --fondo-app: #f8fafc;
+  --fondo-modulo: #ffffff;
+  --borde-divisor: #cbd5e1;
+
+  /* Texto */
+  --texto-principal: #1e293b;
+  --texto-secundario: #64748b;
+  --texto-inverso: #ffffff;
+
+  /* Estados Operativos */
+  --estado-exito-fondo: #dcfce7;
+  --estado-exito-borde: #bbf7d0;
+  --estado-exito-texto: #166534;
+  --estado-error-fondo: #fef2f2;
+  --estado-error-borde: #fecaca;
+  --estado-error-texto: #991b1b;
+  
+  /* Sombras y Medidas Estructurales */
+  --radio-componente: 8px;
+  --radio-input: 6px;
+  --radio-boton: 6px;
+  --sombra-modulo: 0 1px 3px rgba(0,0,0,0.1);
+  --sombra-foco: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}

@@ -1,0 +1,17 @@
+/* src/assets/styles/app.css */
+
+.contenedor-principal {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cabecera {
+  margin-bottom: 2rem;
+}
+
+.cabecera__titulo {
+  color: var(--texto-principal);
+  font-size: 2rem;
+  margin: 0;
+}

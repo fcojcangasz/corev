@@ -1,0 +1,113 @@
+/* src/assets/styles/components/bitacora.css */
+
+.modulo-bitacora {
+  margin-top: 2rem;
+  background-color: var(--fondo-modulo);
+  padding: 2rem;
+  border-radius: var(--radio-componente);
+  box-shadow: var(--sombra-modulo);
+  max-width: 800px;
+}
+
+.modulo-bitacora__titulo {
+  margin-top: 0;
+  color: var(--texto-principal);
+  margin-bottom: 0.5rem;
+}
+
+.modulo-bitacora__descripcion {
+  color: var(--texto-secundario);
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.formulario-operativo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.formulario-operativo__grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.formulario-operativo__grupo--completo {
+  grid-column: 1 / -1;
+}
+
+.formulario-operativo__grupo--acciones {
+  margin-top: 1rem;
+}
+
+.formulario-operativo__etiqueta {
+  font-weight: 500;
+  color: var(--color-institucional-secundario);
+  font-size: 0.9rem;
+}
+
+.formulario-operativo__entrada {
+  padding: 0.75rem;
+  border: 1px solid var(--borde-divisor);
+  border-radius: var(--radio-input);
+  font-family: var(--font-primaria);
+  font-size: 1rem;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  background-color: var(--fondo-modulo);
+  color: var(--texto-principal);
+}
+
+.formulario-operativo__entrada:focus {
+  outline: none;
+  border-color: var(--color-institucional-acento);
+  box-shadow: var(--sombra-foco);
+}
+
+.btn-accion {
+  background-color: var(--color-institucional-acento);
+  color: var(--texto-inverso);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radio-boton);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: var(--font-primaria);
+}
+
+.btn-accion:hover:not(:disabled) {
+  background-color: var(--color-institucional-hover);
+}
+
+.btn-accion:disabled {
+  background-color: var(--texto-secundario);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.notificacion {
+  padding: 1rem;
+  border-radius: var(--radio-componente);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.notificacion--exito {
+  background-color: var(--estado-exito-fondo);
+  color: var(--estado-exito-texto);
+  border: 1px solid var(--estado-exito-borde);
+}
+
+.notificacion--error {
+  background-color: var(--estado-error-fondo);
+  color: var(--estado-error-texto);
+  border: 1px solid var(--estado-error-borde);
+}
+
