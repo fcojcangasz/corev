@@ -33,7 +33,8 @@ const routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    component: () => import("../components/RegistroBitacora.vue"),
+    // MODIFICACIÓN: Ahora apunta correctamente al nuevo archivo
+    component: () => import("../components/Dashboard.vue"),
   },
 ];
 
