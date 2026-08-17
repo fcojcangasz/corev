@@ -67,7 +67,10 @@
       <div class="p-6 sm:p-8 pb-12">
         <div class="grid grid-cols-1 sm:grid-cols-6 gap-6">
           <!-- CAMPO 1: Vehículo -->
-          <div class="sm:col-span-3 relative" :class="selectorUnidadAbierto ? 'z-[100]' : 'z-10'">
+          <div
+            class="sm:col-span-3 relative"
+            :class="selectorUnidadAbierto ? 'z-[100]' : 'z-10'"
+          >
             <label
               class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2"
               >Vehículo <span class="text-red-500">*</span></label
@@ -177,7 +180,7 @@
               class="fixed inset-0 z-40"
             ></div>
           </div>
-          
+
           <!-- CAMPO 2: Conductor -->
           <div class="sm:col-span-3 relative z-40">
             <label
@@ -365,7 +368,7 @@
             ></div>
           </div>
 
-          <!-- CAMPO 4: HORA DE SALIDA (Z-INDEX CORREGIDO A z-50 PARA EVITAR SOLAPAMIENTO) -->
+          <!-- CAMPO 4: HORA DE SALIDA -->
           <div class="sm:col-span-2 relative z-50">
             <label
               class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2"
@@ -1739,6 +1742,10 @@ const cargarViajesActivos = async () => {
     cargandoViajes.value = false;
   }
 };
+
+// ==========================================
+// FIX 1: Lectura segura de Kilometraje (RPC)
+// ==========================================
 const obtenerUltimoKilometraje = async () => {
   if (!formulario.value.id_unidad) return;
 
@@ -1746,32 +1753,29 @@ const obtenerUltimoKilometraje = async () => {
   formulario.value.km_inicial = "Buscando...";
 
   try {
-    const { data, error } = await supabase
-      .from("viajes_operativos")
-      .select("km_final")
-      .eq("id_unidad", formulario.value.id_unidad)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .single();
+    const { data, error } = await supabase.rpc("obtener_kilometraje_vehiculo", {
+      p_id_unidad: parseInt(formulario.value.id_unidad),
+    });
 
-    if (data && data.km_final) {
-      formulario.value.km_inicial = data.km_final;
+    if (error) throw error;
+
+    formulario.value.km_inicial = data || 0;
+
+    if (data > 0) {
+      kmInicialBloqueado.value = true;
     } else {
-      formulario.value.km_inicial = 0;
       kmInicialBloqueado.value = false;
     }
   } catch (error: any) {
-    if (error.code === "PGRST116") {
-      formulario.value.km_inicial = 0;
-      kmInicialBloqueado.value = false;
-    } else {
-      console.error("Error buscando kilometraje:", error);
-      formulario.value.km_inicial = "";
-      kmInicialBloqueado.value = false;
-    }
+    console.error("Error buscando kilometraje mediante RPC:", error);
+    formulario.value.km_inicial = 0;
+    kmInicialBloqueado.value = false;
   }
 };
 
+// ==========================================
+// FIX 2: Candado Anti-Duplicados en Ruta
+// ==========================================
 const registrarSalida = async () => {
   if (
     !formulario.value.id_unidad ||
@@ -1781,6 +1785,17 @@ const registrarSalida = async () => {
     !formulario.value.fecha
   ) {
     mostrarToast("Por favor completa los campos obligatorios.", "warning");
+    return;
+  }
+
+  // Validación: ¿Está el vehículo ya en ruta?
+  const vehiculoOcupado = viajesActivos.value.some(
+    (viaje) =>
+      viaje.id_unidad.toString() === formulario.value.id_unidad.toString(),
+  );
+
+  if (vehiculoOcupado) {
+    mostrarToast("Error: Esta unidad ya se encuentra en ruta.", "warning");
     return;
   }
 
